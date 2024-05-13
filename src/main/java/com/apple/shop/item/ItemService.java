@@ -1,5 +1,6 @@
-package item;
+package com.apple.shop.item;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -47,6 +48,17 @@ public class ItemService {
         changeItem.setTitle(title);
         changeItem.setPrice(price);
         itemRepository.save(changeItem);
+    }
+
+
+    @Transactional
+    public void deleteService(Integer id){
+        Optional<Item> item = itemRepository.findById(id);
+        if(item.isPresent()){
+            itemRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Post not found with id: " + id);
+        }
     }
 
 

@@ -18,9 +18,20 @@
         <a th:href="@{/detail/{id}(id=${i.getId})}"><h4 th:text="${i.getTitle}">상품</h4></a>
     <p th:text="${i.getPrice} + '원'">가격</p>
         <a th:href="@{/modify/{id}(id=${i.getId})}">수정하기</a>
+        <p onclick="deletePost(event)" th:data-id="${i.getId}">Delete</p>
     </div>
 </div>
 
-
+<script>
+    function deletePost(e){
+        const postId = e.target.dataset.id;
+        fetch(`/delete/${postId}`,{
+            method : 'DELETE'
+        })
+        .then((r)=>{
+        e.target.parentElement.parentElement.style.display='none'})
+    }
+</script>
 </body>
+
 </html>
