@@ -1,4 +1,4 @@
-package com.apple.shop;
+package item;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

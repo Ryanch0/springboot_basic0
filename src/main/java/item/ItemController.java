@@ -1,7 +1,7 @@
-package com.apple.shop;
-import jakarta.persistence.Id;
+package item;
+import com.apple.shop.Notice;
+import com.apple.shop.NoticeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

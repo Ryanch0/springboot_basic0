@@ -1,4 +1,4 @@
-package com.apple.shop;
+package item;
 
 
 import jakarta.persistence.*;
