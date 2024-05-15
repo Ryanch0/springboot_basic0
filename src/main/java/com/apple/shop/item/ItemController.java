@@ -77,7 +77,7 @@ public class ItemController {
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteItem(@PathVariable Integer id){
+     ResponseEntity<String> deleteItem(@PathVariable Integer id){
         try {
             itemService.deleteService(id);
             return ResponseEntity.ok().build();

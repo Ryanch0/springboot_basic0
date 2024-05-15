@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 
 @Controller
 public class BasicController {
+
+
     @GetMapping("/")
     String hi(){
         return "forward:/index.html";
@@ -24,7 +26,6 @@ public class BasicController {
     String date(){
         return LocalDateTime.now().toString();
     }
-
 
 }
 
