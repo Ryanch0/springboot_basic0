@@ -23,4 +23,15 @@ public class MemberController {
        memberService.saveAccount(displayName,username,password);
         return "redirect:/list";
     }
+
+    @GetMapping("/login")
+    String login(){
+        return "login.html";
+    }
+
+    @PostMapping("/signin")
+    String signin(String username, String password){
+
+        return "redirect:/list";
+    }
 }

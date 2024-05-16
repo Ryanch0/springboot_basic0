@@ -28,4 +28,9 @@ public class MemberService {
         addAccount.setPassword(encoder);
         memberRepository.save(addAccount);
     }
+
+    public void checkMember(String username, String password) {
+
+    }
+
 }
