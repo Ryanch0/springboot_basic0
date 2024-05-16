@@ -3,5 +3,13 @@
     <a href="/list">List</a>
     <a href="/write">Write</a>
     <a href="/register">Sign-Up</a>
-    <a href="/signin">Sign-In</a>
+    <div sec:authorize="isAnonymous()">
+        <a href="/login">Sign-In</a>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <a href="/logout">Logout</a>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <h4 sec:authentication="principal.username"></h4>
+    </div>
 </div>

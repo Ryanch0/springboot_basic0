@@ -29,8 +29,4 @@ public class MemberService {
         memberRepository.save(addAccount);
     }
 
-    public void checkMember(String username, String password) {
-
-    }
-
 }

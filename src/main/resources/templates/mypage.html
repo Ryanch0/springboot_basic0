@@ -9,18 +9,14 @@
     <link href="/main.css" rel="stylesheet">
 </head>
 <body>
+
 <div th:replace="~{nav.html::navbar}"></div>
 
-<form action="/add" method="POST">
-    <input name="title">
-    <input name="price">
-    <div sec:authorize="isAuthenticated()">
-        <input name="username" type="text" th:value="${#authentication.principal.username}" readonly style="display : none">
-    </div>
-
-    <button type="submit">전송</button>
-</form>
-
+<h4>LOGIN</h4>
+<h4>Mypage</h4>
+<p>name:<span sec:authentication="principal.username"></span></p>
+<p>authorites:<span sec:authentication="principal.authorities"></span></p>
 
 </body>
+
 </html>

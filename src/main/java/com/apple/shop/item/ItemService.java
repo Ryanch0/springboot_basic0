@@ -2,6 +2,7 @@ package com.apple.shop.item;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +15,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    public  void saveItem(String title, Integer price){
+    public  void saveItem(String title, Integer price, String username){
         if (!StringUtils.hasText(title)) {
             throw new IllegalArgumentException("Title must not be empty");
         }
@@ -24,6 +25,7 @@ public class ItemService {
         Item addItem = new Item();
             addItem.setTitle(title);
             addItem.setPrice(price);
+            addItem.setUsername(username);
             itemRepository.save(addItem);
     }
 

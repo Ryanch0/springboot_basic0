@@ -15,6 +15,7 @@
 <div class="card" th:each="i : ${items}">
     <img src="https://placehold.co/300">
     <div>
+        <h4 th:text="'user['+${i.getUsername} + ']'"></h4>
         <a th:href="@{/detail/{id}(id=${i.getId})}"><h4 th:text="${i.getTitle}">상품</h4></a>
     <p th:text="${i.getPrice} + '원'">가격</p>
         <a th:href="@{/modify/{id}(id=${i.getId})}">수정하기</a>

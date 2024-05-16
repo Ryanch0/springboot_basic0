@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +28,17 @@ public class ItemController {
     }
 
     @GetMapping("/write")
-    String write() {
-        return "write.html";
+    String write(Authentication auth) {
+        if(auth != null && auth.isAuthenticated()) {
+            return "write.html";
+        } else {
+            return "redirect:/list";
+        }
     }
 
     @PostMapping("/add")
-    String addPost(String title, Integer price) {
-        itemService.saveItem(title, price);   //서비스레이어 연습
+    String addPost(String title, Integer price, String username) {
+        itemService.saveItem(title, price, username);   //서비스레이어 연습
         return "redirect:/list";
     }
 

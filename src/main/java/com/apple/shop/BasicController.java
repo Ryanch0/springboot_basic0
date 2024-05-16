@@ -15,12 +15,6 @@ public class BasicController {
     }
 
 
-    @GetMapping("/mypage")
-    @ResponseBody
-    String intro(){
-        return "마이페이지임";
-    }
-
     @GetMapping("/date")
     @ResponseBody
     String date(){

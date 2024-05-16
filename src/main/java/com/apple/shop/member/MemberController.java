@@ -1,5 +1,6 @@
 package com.apple.shop.member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,12 @@ public class MemberController {
 
 
     @GetMapping("/register")
-    String register() {
-        return "register.html";
+    String register(Authentication auth) {
+        if(auth.isAuthenticated() == true){
+            return "redirect:/list";
+        }else {
+            return "register.html";
+        }
     }
 
     @PostMapping("/signup")
@@ -33,5 +38,18 @@ public class MemberController {
     String signin(String username, String password){
 
         return "redirect:/list";
+    }
+
+    @GetMapping("/my-page")
+    String mypage(Authentication auth){
+        System.out.println(auth);
+        System.out.println(auth.getName()); //get username
+        System.out.println(auth.isAuthenticated()); //verify whether user login or not
+        if(auth.isAuthenticated() == true){
+            return "mypage.html";
+        } else {
+            return "redirect:/list";
+        }
+
     }
 }
