@@ -52,3 +52,13 @@ input {
   display : block;
   margin : auto;
 }
+.page {
+margin-left : auto;
+margin-right : auto;
+display : block;
+width : 100px;
+}
+.page a {
+font-size : 25px;
+margin-left : 10px;
+}

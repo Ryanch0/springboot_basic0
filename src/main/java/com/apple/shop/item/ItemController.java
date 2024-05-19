@@ -3,6 +3,7 @@ import com.apple.shop.Notice;
 import com.apple.shop.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,27 +20,35 @@ public class ItemController {
     private final NoticeRepository noticeRepository;
     private final ItemService itemService;
 
-    @GetMapping("/list")
-//    Model 변수는 타임리프 문법 변수
-    String list(Model model) {
-        List<Item> result= itemService.dbItem(); //서비스레이어 연습
+
+    //    pagination
+    @GetMapping("/list/page/{page}")
+    String getListPage(Model model, @PathVariable Integer page) {
+        Slice<Item> result = itemService.pageItem(page);
         model.addAttribute("items", result); //타임리프 문법
         return "list.html";
     }
+//    @GetMapping("/list")
+////    Model 변수는 타임리프 문법 변수
+//    String list(Model model) {
+//        List<Item> result= itemService.dbItem(); //서비스레이어 연습
+//        model.addAttribute("items", result); //타임리프 문법
+//        return "list.html";
+//    }
 
     @GetMapping("/write")
     String write(Authentication auth) {
         if(auth != null && auth.isAuthenticated()) {
             return "write.html";
         } else {
-            return "redirect:/list";
+            return "redirect:/list/page/1";
         }
     }
 
     @PostMapping("/add")
     String addPost(String title, Integer price, String username) {
         itemService.saveItem(title, price, username);   //서비스레이어 연습
-        return "redirect:/list";
+        return "redirect:/list/page/1";
     }
 
 
@@ -58,7 +67,7 @@ public class ItemController {
                 model.addAttribute("detail", result);
                 return "detail.html";
             } else {
-                return "redirect:/list";
+                return "redirect:/list/page/1";
             }
     }
 
@@ -70,14 +79,14 @@ public class ItemController {
             model.addAttribute("modify", result);
             return "modify.html";
         } else {
-            return "redirect:/list";
+            return "redirect:/list/page/1";
         }
     }
 
     @PostMapping("/setModify/{id}")
     String setModify(@PathVariable Integer id, String title, Integer price) {
         itemService.modifyItem(id,title, price);   //서비스레이어 연습
-        return "redirect:/list";
+        return "redirect:/list/page/1";
     }
 
 
@@ -92,6 +101,8 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error!");
         }
     }
+
+
 
 
 

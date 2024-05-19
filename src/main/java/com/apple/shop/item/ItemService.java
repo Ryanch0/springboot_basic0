@@ -2,6 +2,9 @@ package com.apple.shop.item;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -31,6 +34,10 @@ public class ItemService {
 
     public List<Item> dbItem(){
          return itemRepository.findAll();
+    }
+
+    public Slice<Item> pageItem(@PathVariable Integer page){
+        return itemRepository.findPageBy(PageRequest.of(page-1,5));
     }
 
     public Optional<Item> itemId(@PathVariable Integer id){
