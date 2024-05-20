@@ -1,5 +1,7 @@
 package com.apple.shop.item;
 
+import com.apple.shop.comment.Comment;
+import com.apple.shop.comment.CommentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -40,11 +42,12 @@ public class ItemService {
         return itemRepository.findPageBy(PageRequest.of(page-1,5));
     }
 
-    public Optional<Item> itemId(@PathVariable Integer id){
+    public Optional<Item> itemId(@PathVariable Long id){
         return itemRepository.findById(id);
     }
 
-    public void modifyItem(Integer id,String title, Integer price){
+
+    public void modifyItem(Long id,String title, Integer price){
         if (!StringUtils.hasText(title)) {
             throw new IllegalArgumentException("Title must not be empty");
         }
@@ -61,7 +64,7 @@ public class ItemService {
 
 
     @Transactional
-    public void deleteService(Integer id){
+    public void deleteService(Long id){
         Optional<Item> item = itemRepository.findById(id);
         if(item.isPresent()){
             itemRepository.deleteById(id);

@@ -21,6 +21,30 @@
     <p th:text="${detail.get().price} + '원'">7억</p>
 </div>
 
+<h4> Comment
+<div th:each="i : ${commentDetail}">
+    <div>
+        <h4 th:text="'user['+${i.getUsername} + ']'"></h4>
+        <p th:text="${i.getContent}"></p>
+    </div>
+</div>
+</h4>
+
+
+<div sec:authorize="isAnonymous()">
+    <h4>로그인 후 댓글 입력이 가능합니다</h4>
+</div>
+
+<div sec:authorize="isAuthenticated()">
+<form action="/comment" method="POST">
+    <input name="content">
+        <input name="username" type="text" th:value="${#authentication.principal.username}"
+               readonly style="display : none">
+    <input name="parentId" th:value="${detail.get().id}" readonly style="display : none">
+    <button type="submit">writing comment</button>
+</form>
+</div>
+
 
 
 </body>

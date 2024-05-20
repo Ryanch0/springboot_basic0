@@ -1,6 +1,8 @@
 package com.apple.shop.item;
 import com.apple.shop.Notice;
 import com.apple.shop.NoticeRepository;
+import com.apple.shop.comment.Comment;
+import com.apple.shop.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Slice;
@@ -16,10 +18,10 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 public class ItemController {
-    private final ItemRepository itemRepository;
     private final NoticeRepository noticeRepository;
     private final ItemService itemService;
     private final S3Service s3Service;
+    private final CommentService commentService;
 
     //    pagination
     @GetMapping("/list/page/{page}")
@@ -61,10 +63,12 @@ public class ItemController {
     }
 
     @GetMapping("/detail/{id}")
-    String detail(@PathVariable Integer id, Model model) {
+    String detail(@PathVariable Long id, Model model) {
             Optional<Item> result = itemService.itemId(id);  //서비스레이어 연습
+            List<Comment> result2 = commentService.parentId(id);
             if(result.isPresent()){
                 model.addAttribute("detail", result);
+                model.addAttribute("commentDetail", result2);
                 return "detail.html";
             } else {
                 return "redirect:/list/page/1";
@@ -73,7 +77,7 @@ public class ItemController {
 
 //    수정기능
     @GetMapping("/modify/{id}")
-    String modify(@PathVariable Integer id, Model model) {
+    String modify(@PathVariable Long id, Model model) {
         Optional<Item> result = itemService.itemId(id);  //서비스레이어 연습
         if(result.isPresent()){
             model.addAttribute("modify", result);
@@ -84,14 +88,14 @@ public class ItemController {
     }
 
     @PostMapping("/setModify/{id}")
-    String setModify(@PathVariable Integer id, String title, Integer price) {
+    String setModify(@PathVariable Long id, String title, Integer price) {
         itemService.modifyItem(id,title, price);   //서비스레이어 연습
         return "redirect:/list/page/1";
     }
 
 
     @DeleteMapping("/delete/{id}")
-     ResponseEntity<String> deleteItem(@PathVariable Integer id){
+     ResponseEntity<String> deleteItem(@PathVariable Long id){
         try {
             itemService.deleteService(id);
             return ResponseEntity.ok().build();
