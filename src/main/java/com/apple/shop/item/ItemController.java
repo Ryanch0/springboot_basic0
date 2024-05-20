@@ -19,7 +19,7 @@ public class ItemController {
     private final ItemRepository itemRepository;
     private final NoticeRepository noticeRepository;
     private final ItemService itemService;
-
+    private final S3Service s3Service;
 
     //    pagination
     @GetMapping("/list/page/{page}")
@@ -46,8 +46,8 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    String addPost(String title, Integer price, String username) {
-        itemService.saveItem(title, price, username);   //서비스레이어 연습
+    String addPost(String title, Integer price, String username, String img) {
+        itemService.saveItem(title, price, username, img);   //서비스레이어 연습
         return "redirect:/list/page/1";
     }
 
@@ -100,6 +100,15 @@ public class ItemController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error!");
         }
+    }
+
+    @GetMapping("/presigned-url")
+    @ResponseBody
+    String getURL(@RequestParam String filename){
+        System.out.println(filename);
+       var result =  s3Service.createPresignedUrl("test/" + filename);
+        System.out.println(result);
+        return result;
     }
 
 

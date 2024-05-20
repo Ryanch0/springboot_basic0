@@ -11,15 +11,54 @@
 <body>
 <div th:replace="~{nav.html::navbar}"></div>
 
-<form action="/add" method="POST">
+<form action="/add" method="POST" onsubmit="getURL(event)" id="uploadForm">
     <input name="title">
     <input name="price">
     <div sec:authorize="isAuthenticated()">
         <input name="username" type="text" th:value="${#authentication.principal.username}" readonly style="display : none">
     </div>
-
+    <input type="file" id="fileInput" >
+    <input type="hidden" id="imgsrcInput" name="img">
     <button type="submit">전송</button>
 </form>
+
+
+<script>
+   async function getURL(e){
+   e.preventDefault();
+    let fileInput = document.getElementById('fileInput');
+    let file = fileInput.files[0];
+    let fileUrl
+
+    if (!file) {
+            console.log("파일을 선택해주세요.");
+            fileUrl = "https://placehold.co/300"; // 기본 이미지 URL
+            document.getElementById('imgsrcInput').value = fileUrl;
+            document.getElementById('uploadForm').submit(); // 폼을 제출합니다.
+            return;
+        }
+
+    let name = encodeURIComponent(file.name)
+    let result = await fetch('/presigned-url?filename=' + name )
+    result = await result.text()
+    console.log(result)
+
+   let finalResult = await fetch(result, {
+    method : 'put',
+    body : file
+    })
+
+    console.log(finalResult)
+    console.log(finalResult.url.split("?")[0])
+
+   document.getElementById('imgsrcInput').value = finalResult.url.split("?")[0];
+   console.log(document.getElementById('imgsrcInput').value)
+   document.getElementById('uploadForm').submit();
+
+
+
+    }
+</script>
 
 
 </body>

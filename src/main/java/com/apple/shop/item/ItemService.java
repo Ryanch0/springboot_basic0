@@ -2,10 +2,8 @@ package com.apple.shop.item;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,17 +16,19 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    public  void saveItem(String title, Integer price, String username){
+    public  void saveItem(String title, Integer price, String username, String img){
         if (!StringUtils.hasText(title)) {
             throw new IllegalArgumentException("Title must not be empty");
         }
         if (price == null || price < 0) {
             throw new IllegalArgumentException("Price must not be null and must be greater than or equal to 0");
         }
+
         Item addItem = new Item();
             addItem.setTitle(title);
             addItem.setPrice(price);
             addItem.setUsername(username);
+            addItem.setImg(img);
             itemRepository.save(addItem);
     }
 
@@ -70,5 +70,5 @@ public class ItemService {
         }
     }
 
-
 }
+
