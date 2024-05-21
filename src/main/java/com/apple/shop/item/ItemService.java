@@ -75,7 +75,6 @@ public class ItemService {
 
     public List<Item> postSearch(@RequestParam String searchText){
      var result = itemRepository.rawQuery1(searchText);
-//        System.out.println(result);
         return result;
     }
 

@@ -12,9 +12,17 @@
 
 <div th:replace="~{nav.html::navbar}"></div>
 
-<h4>Mypage</h4>
-<p>name:<span sec:authentication="principal.username"></span></p>
-<p>authorites:<span sec:authentication="principal.authorities"></span></p>
+
+<div class="card" th:each="i : ${orders}">
+    <div>
+        <h4 th:text="'itemName['+${i.getItemName} + ']'">제품명</h4>
+        <h4 th:text="'price['+${i.getPrice} + ']'">가격</h4>
+        <h4 th:text="'count['+${i.getCount} + ']'">수량</h4>
+        <h4 th:text="'memberId['+${i.getMemberId} + ']'">구매자id</h4>
+    </div>
+</div>
+
+
 
 </body>
 

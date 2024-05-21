@@ -19,7 +19,18 @@
     <img th:if="${detail.get().img != null}" th:src="${detail.get().img}">
     <h4 th:text="${detail.get().title}">금도금 바지</h4>
     <p th:text="${detail.get().price} + '원'">7억</p>
+
+    <div sec:authorize="isAnonymous()">
+        <a href="/login"><button>Signin required to order</button></a>
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+        <a th:href="@{/order/{id}(id=${detail.get().id})}"><button>Order</button></a>
+    </div>
 </div>
+
+
+
 
 <h4> Comment
 <div th:each="i : ${commentDetail}">

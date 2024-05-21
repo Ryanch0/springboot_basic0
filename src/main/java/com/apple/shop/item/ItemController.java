@@ -115,12 +115,14 @@ public class ItemController {
         return result;
     }
 
+//    search api
     @PostMapping("/search")
     String postSearch(@RequestParam String searchText,Model model){
        List<Item> result =  itemService.postSearch(searchText);
             model.addAttribute("search", result);
         return "searchList.html";
     }
+
 
 
 

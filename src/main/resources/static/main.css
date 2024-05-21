@@ -47,6 +47,9 @@ input {
 .detail {
   text-align : center;
 }
+.detail input {
+display : inline-block;
+}
 .detail img{
   max-width : 30%;
   display : block;
