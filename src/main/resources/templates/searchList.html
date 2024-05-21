@@ -19,25 +19,19 @@
 
 
 
-<div class="card" th:each="i : ${items}">
+<div class="card" th:each="i : ${search}">
     <img th:if="${i.getImg == null}" src="https://placehold.co/300">
     <img th:if="${i.getImg != null}" th:src="${i.getImg}">
     <div>
         <h4 th:text="'user['+${i.getUsername} + ']'"></h4>
         <a th:href="@{/detail/{id}(id=${i.getId})}"><h4 th:text="${i.getTitle}">상품</h4></a>
-    <p th:text="${i.getPrice} + '원'">가격</p>
+        <p th:text="${i.getPrice} + '원'">가격</p>
         <a th:href="@{/modify/{id}(id=${i.getId})}">수정하기</a>
         <p onclick="deletePost(event)" th:data-id="${i.getId}">Delete</p>
     </div>
 </div>
 
 
-<div class="page">
-<a href="/list/page/1">1</a>
-<a href="/list/page/2">2</a>
-<a href="/list/page/3">3</a>
-<a href="/list/page/4">4</a>
-</div>
 
 <script>
     function deletePost(e){

@@ -1,7 +1,5 @@
 package com.apple.shop.item;
 
-import com.apple.shop.comment.Comment;
-import com.apple.shop.comment.CommentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +7,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -71,6 +71,12 @@ public class ItemService {
         } else {
             throw new RuntimeException("Post not found with id: " + id);
         }
+    }
+
+    public List<Item> postSearch(@RequestParam String searchText){
+     var result = itemRepository.rawQuery1(searchText);
+//        System.out.println(result);
+        return result;
     }
 
 }
