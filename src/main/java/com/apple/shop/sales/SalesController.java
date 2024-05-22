@@ -1,7 +1,6 @@
 package com.apple.shop.sales;
 
 import com.apple.shop.item.ItemRepository;
-import com.apple.shop.member.Member;
 import com.apple.shop.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -20,16 +19,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SalesController {
     private final ItemRepository itemRepository;
-    private final MemberRepository memberRepository;
     private final SalesService salesService;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/order/{id}")
     String order(Authentication auth, Model model, @PathVariable Long id) {
         if(auth != null && auth.isAuthenticated()) {
            var result = itemRepository.findById(id);
-//           var result2 = memberRepository.findByUsername(auth.getName());
             model.addAttribute("product", result);
-//            model.addAttribute("userinfo", result2);
             return "order.html";
         } else {
             return "/login";
@@ -47,7 +44,6 @@ public class SalesController {
     @ResponseBody
     public List<SalesDto> getOrder (){
         List<Sales> result = salesService.allOrder();
-        System.out.println(result);
         List<SalesDto> data = new ArrayList<>();
         for (Sales a : result) {
             SalesDto dto = new SalesDto(a.getItemName(), a.getPrice(), a.getCount(),
@@ -56,6 +52,15 @@ public class SalesController {
         }
         return  data;
     }
+
+    //@OneToMany test
+    @GetMapping("/order/all")
+    String getOrderAll(){
+       var result =  memberRepository.findById(5L);
+       System.out.println(result.get().getSales());
+        return "redirect:/list/page/1";
+    }
+
 
 }
 

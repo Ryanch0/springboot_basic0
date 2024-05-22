@@ -21,7 +21,7 @@ public class Sales {
     private String itemName;
     private Integer price;
     private Integer count;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id",
                 foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
     )
