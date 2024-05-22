@@ -29,18 +29,8 @@ public class MyUserDetailsService implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority("admin"));
         var a = new CustomUser(user.getUsername(), user.getPassword(),authorities);
         a.displayName = user.getDisplayName();
+        a.id = user.getId();
         return a;
     }
 }
 
-//User 클래스를 커스터마이즈
-class CustomUser extends User {
-    public String displayName;
-    public CustomUser(
-            String username,
-            String password,
-            Collection<? extends GrantedAuthority> authorities
-    ) {
-        super(username, password, authorities);
-    }
-}
