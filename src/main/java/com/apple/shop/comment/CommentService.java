@@ -20,6 +20,7 @@ public class CommentService {
         commentRepository.save(addComment);
     }
 
+
     public List<Comment> parentId(@PathVariable Long id){
         return commentRepository.findByParentId(id);
     }
